@@ -1,0 +1,295 @@
+import os, textwrap
+
+html = r'''<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIRUS: Estación Polar</title>
+<style>
+:root{--bg:#050b15;--panel:#0a1728;--panel2:#0d2035;--line:#1d5275;--cyan:#42d9ff;--blue:#168bd0;--red:#ff405e;--green:#35e0a1;--yellow:#ffd34e;--muted:#91a9c2;--white:#eaf6ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#103052 0,#071322 42%,#03070e 100%);color:var(--white);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:1px solid #2875a1;background:linear-gradient(180deg,#123b5d,#0b2036);color:var(--white);padding:10px 15px;border-radius:8px;font-weight:750;letter-spacing:.03em;transition:.15s}button:hover{border-color:var(--cyan);filter:brightness(1.18)}button:disabled{opacity:.35;cursor:not-allowed;filter:none}.primary{border-color:var(--cyan);background:linear-gradient(180deg,#0877a9,#07446c)}.danger{border-color:#9e3047;background:linear-gradient(180deg,#6d1e32,#35101d)}.good{border-color:#178b70;background:linear-gradient(180deg,#12664f,#0a332b)}.ghost{background:#07111e}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px clamp(14px,3vw,38px);border-bottom:1px solid #194362;background:#040b14d9;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:12px}.logo{font-size:30px;color:var(--red);text-shadow:0 0 22px #ff244b}.brand h1{font-size:clamp(18px,3vw,27px);margin:0;letter-spacing:.1em}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.19em}.topstats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid #214b68;background:#08192a;padding:6px 10px;border-radius:20px;color:#b8d6e9;font-size:12px}.pill strong{color:var(--cyan)}
+main{max-width:1440px;margin:auto;padding:22px clamp(12px,2.5vw,32px) 42px}.hero{position:relative;overflow:hidden;border:1px solid #205477;border-radius:16px;min-height:215px;padding:clamp(20px,4vw,44px);background:linear-gradient(90deg,#061321 0%,#061321e8 48%,#06132130 100%),url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1800&q=85') center 48%/cover}
+.hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#06111f80,transparent 45%)}.hero>*{position:relative;z-index:1}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:.22em;font-weight:800}.hero h2{font-size:clamp(28px,5vw,50px);line-height:1.02;margin:12px 0;max-width:690px;text-transform:uppercase}.hero p{color:#c1d8e9;max-width:620px;margin:0 0 18px}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);gap:16px;margin-top:16px}.panel{background:linear-gradient(145deg,#0b1b2d,#07111e);border:1px solid #1c4968;border-radius:13px;overflow:hidden;box-shadow:0 12px 35px #0003}.panelhead{padding:14px 17px;border-bottom:1px solid #193c58;display:flex;align-items:center;justify-content:space-between;gap:10px}.panelhead h3{margin:0;font-size:14px;letter-spacing:.08em}.panelbody{padding:16px}.muted{color:var(--muted)}.small{font-size:12px}.phasebanner{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:10px;border:1px solid #28628a;background:#0b2338;margin-bottom:14px}.phaseicon{font-size:26px}.phasebanner h3{margin:0 0 3px;font-size:17px}.phasebanner p{margin:0;color:#b3cbe0;font-size:12px}.gridplayers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.player{position:relative;text-align:left;padding:11px;background:linear-gradient(145deg,#10253b,#081523);border:1px solid #214660;border-radius:10px;min-width:0}.player .avatar{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#153d5a;color:var(--cyan);font-weight:900;font-size:17px;margin-bottom:9px}.player .name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}.player .roleline{font-size:10px;color:#88a8c2;margin-top:3px}.player.selected{border-color:var(--yellow);box-shadow:0 0 0 1px #ffd34e55,0 0 20px #ffd34e12}.player.dead{opacity:.35;filter:grayscale(1)}.player.infected .avatar{background:#5b1b31;color:#ff7184}.statusdot{position:absolute;right:9px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px currentColor}.statusdot.red{background:var(--red)}.player .you{color:var(--yellow);font-size:9px;margin-left:4px}.actionbox{margin-top:14px;padding:14px;border:1px solid #214a67;background:#071725;border-radius:10px}.actionbox h4{margin:0 0 8px;font-size:13px}.actionbox p{font-size:12px;color:#a8bfd2;margin:0 0 12px}.actions{display:flex;flex-wrap:wrap;gap:8px}.feed{display:flex;flex-direction:column;gap:9px;max-height:330px;overflow:auto}.event{border-left:2px solid #2879a5;padding:8px 10px;background:#081827;border-radius:0 7px 7px 0;font-size:12px;color:#c5d9e8}.event strong{color:var(--cyan)}.event.redline{border-color:var(--red)}.event.greenline{border-color:var(--green)}.event.yellowline{border-color:var(--yellow)}.voterow{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:9px 0;border-bottom:1px solid #17354d;font-size:13px}.voterow:last-child{border:0}.voterow label{display:flex;align-items:center;gap:8px;cursor:pointer}.voterow input{accent-color:var(--cyan)}.result{padding:15px;border-radius:10px;border:1px solid #276486;background:#091d2e;margin-bottom:12px}.result h4{margin:0 0 7px}.result p{margin:0;color:#bed2e2;font-size:13px;line-height:1.5}.win{padding:25px;text-align:center;border:1px solid var(--green);background:radial-gradient(ellipse at top,#104a42,#071621 70%);border-radius:14px}.win.virus{border-color:var(--red);background:radial-gradient(ellipse at top,#4a1426,#07111e 70%)}.win h2{font-size:28px;margin:8px}.win p{color:#bed3e2}.footer{text-align:center;color:#67869f;font-size:10px;letter-spacing:.12em;margin-top:24px}.hidden{display:none!important}.modalback{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:16px;z-index:20}.modal{width:min(540px,100%);background:#081827;border:1px solid #27739b;border-radius:14px;padding:24px;box-shadow:0 25px 100px #0009}.modal h2{margin-top:0}.modal p{color:#bed3e2;line-height:1.55}.rolecard{padding:13px;background:#0b2236;border:1px solid #2c6587;border-radius:10px;margin:12px 0}.rolecard strong{color:var(--cyan)}.rolecard.infectedrole strong{color:var(--red)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#102b40;border:1px solid var(--cyan);padding:12px 18px;border-radius:9px;z-index:30;box-shadow:0 10px 40px #0008;font-size:13px;max-width:90vw}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.gridplayers{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{background-position:60% center}.topstats .pill:nth-child(2){display:none}}@media(max-width:480px){header{align-items:flex-start;flex-direction:column}.topstats{justify-content:flex-start}.gridplayers{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:250px}.panelbody{padding:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">☣</div><div><h1>VIRUS</h1><small>ESTACIÓN POLAR · PROTOCOLO DE CONTENCIÓN</small></div></div>
+  <div class="topstats"><span class="pill">RONDA <strong id="roundTop">0 / 6</strong></span><span class="pill">ESTADO <strong id="statusTop">EN ESPERA</strong></span><span class="pill">SUPERVIVIENTES <strong id="aliveTop">11</strong></span></div>
+</header>
+<main>
+<section class="hero" id="hero">
+  <div class="eyebrow">ALERTA BIOLÓGICA // SEÑAL DE RESCATE EN 6 DÍAS</div>
+  <h2>La confianza<br>también puede infectar.</h2>
+  <p>Once personas aisladas. Un patógeno desconocido. Cada decisión puede salvar la estación… o condenarla.</p>
+  <button class="primary" id="startBtn">INICIAR PROTOCOLO →</button>
+  <button class="ghost" id="rulesBtn">LEER REGLAS</button>
+</section>
+<div class="layout hidden" id="gameLayout">
+  <section class="panel">
+    <div class="panelhead"><h3>◈ ESTADO DE LA ESTACIÓN</h3><span class="pill" id="phasePill">NOCHE 1</span></div>
+    <div class="panelbody">
+      <div class="phasebanner"><div class="phaseicon" id="phaseIcon">☾</div><div><h3 id="phaseTitle">Fase nocturna</h3><p id="phaseDesc">Las luces se apagan. Elige tu acción en secreto.</p></div></div>
+      <div id="nightInfo" class="result"><h4>Acciones en curso</h4><p>La estación registra movimientos en los pasillos. Tus decisiones son confidenciales.</p></div>
+      <h3 class="small muted" style="letter-spacing:.12em;margin:18px 0 10px">PERSONAL REGISTRADO</h3>
+      <div class="gridplayers" id="playersGrid"></div>
+      <div class="actionbox" id="actionBox">
+        <h4 id="actionTitle">Selecciona un objetivo</h4><p id="actionDesc">Haz clic en un personaje para seleccionarlo.</p>
+        <div class="actions" id="actionButtons"></div>
+      </div>
+      <div id="dayControls" class="actionbox hidden">
+        <h4>VOTACIÓN DE AISLAMIENTO</h4><p>Elige a quién expulsar. Los demás jugadores también emitirán su voto según sus sospechas.</p>
+        <div id="voteList"></div><button class="danger" id="voteBtn" style="width:100%;margin-top:12px">CONFIRMAR VOTO</button>
+      </div>
+    </div>
+  </section>
+  <aside style="display:flex;flex-direction:column;gap:16px">
+    <section class="panel"><div class="panelhead"><h3>▤ REGISTRO DE EVENTOS</h3><span class="pill" id="eventCount">0 EVENTOS</span></div><div class="panelbody"><div class="feed" id="feed"></div></div></section>
+    <section class="panel"><div class="panelhead"><h3>⌁ INFORME BIOMÉTRICO</h3></div><div class="panelbody" id="bioReport"><p class="muted small">Los datos aparecerán cuando empiece la partida.</p></div></section>
+    <section class="panel"><div class="panelhead"><h3>◉ OBJETIVOS</h3></div><div class="panelbody small"><p>🔹 <strong>Tripulación:</strong> expulsa a todos los infectados.</p><p>☣ <strong>Virus:</strong> iguala o supera a los limpios, o llega al rescate con un infectado libre.</p><p>🛡 <strong>Seguridad:</strong> el jugador bloqueado no puede infectar, ser infectado ni ser escaneado esa noche.</p></div></section>
+  </aside>
+</div>
+<div id="endScreen" class="hidden" style="margin-top:18px"></div>
+<div class="footer">POLAR RESEARCH FACILITY · SIMULACIÓN DE DEDUCCIÓN SOCIAL · BUILD 1.0</div>
+</main>
+<div class="modalback hidden" id="modal"><div class="modal"><h2 id="modalTitle">PROTOCOLO</h2><div id="modalBody"></div><div class="actions"><button class="primary" id="modalClose">ENTENDIDO</button></div></div></div>
+<div class="toast hidden" id="toast"></div>
+<script>
+(()=>{
+'use strict';
+const names=['TÚ','GPT','Claude','Gemini','Grok','DeepSeek','Qwen','Kimi','Mistral','GLM','Meta'];
+const roles=['Tripulante','Tripulante','Tripulante','Tripulante','Tripulante','Tripulante','Tripulante','Tripulante','Paciente Cero','Médico','Jefe de seguridad'];
+const $=id=>document.getElementById(id);
+let players=[], round=0, phase='setup', selected=null, humanTarget=null, humanVote=null, events=[], playerRole=null, gameOver=false, nightActions={}, lastScan=null, night=0;
+const alive=()=>players.filter(p=>p.alive);
+const infected=()=>players.filter(p=>p.alive&&p.infected);
+const clean=()=>players.filter(p=>p.alive&&!p.infected);
+const me=()=>players[0];
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function log(msg,type=''){events.unshift({msg,type});events=events.slice(0,40);renderFeed()}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
+function showModal(title,body){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modal').classList.remove('hidden')}
+function hideModal(){$('modal').classList.add('hidden')}
+$('modalClose').onclick=hideModal;
+$('rulesBtn').onclick=()=>showModal('REGLAS DE CONTENCIÓN',`<p><strong>11 jugadores:</strong> 8 tripulantes, Paciente Cero, médico y jefe de seguridad. Los roles se asignan en secreto; tú eres uno de los jugadores.</p><p><strong>Cada noche:</strong> P0 intenta infectar a alguien, el médico escanea a un jugador y seguridad bloquea a otro. Un objetivo bloqueado no puede infectar, ser infectado ni escaneado esa noche. Si un infectado adquiere un rol especial, conserva su habilidad.</p><p><strong>Cada día:</strong> se informa si hubo una intrusión, se debate y se vota para expulsar a alguien. El escáner público revela si el expulsado estaba limpio o infectado.</p><p><strong>Gana la tripulación</strong> si expulsa a todos los infectados. <strong>Gana el virus</strong> cuando los infectados igualan o superan a los limpios, o si queda algún infectado libre cuando termina el día 6.</p><p class="muted small">Los personajes de la computadora usan decisiones simuladas y sospechas internas; no son modelos de IA conectados a servicios externos.</p>`);
+$('startBtn').onclick=startGame;
+function startGame(){
+  const assigned=shuffle([...roles]);
+  players=names.map((name,i)=>({id:i,name,role:assigned[i],alive:true,infected:assigned[i]==='Paciente Cero',isHuman:i===0,suspicion:0,knownClean:false,knownInfected:false,blockedLast:false,notes:[]}));
+  // P0 begins infected; role holder is not necessarily the only original infected.
+  round=0;night=0;phase='night';selected=null;humanTarget=null;humanVote=null;events=[];gameOver=false;lastScan=null;
+  $('hero').classList.add('hidden');$('gameLayout').classList.remove('hidden');$('endScreen').classList.add('hidden');
+  const p=me();playerRole=p.role;
+  log('PROTOCOLO INICIADO. Once señales biométricas detectadas.','');
+  log('La tormenta ha cortado las comunicaciones. El rescate llegará al final del día 6.','');
+  showModal('TU IDENTIDAD CLASIFICADA',`<p>Tu tarjeta de acceso ha sido verificada. No reveles tu rol.</p><div class="rolecard ${p.infected?'infectedrole':''}"><strong>${p.infected?'☣ '+p.role.toUpperCase():'◈ '+p.role.toUpperCase()}</strong><p>${roleDescription(p.role,p.infected)}</p></div><p class="muted small">Los demás personajes no conocen tu rol inicial. Si te infectan, tu bando cambiará en secreto.</p>`);
+  renderAll();beginNight();
+}
+function roleDescription(role,inf){
+ if(inf)return 'Estás infectado y juegas para el virus. Tu objetivo es alcanzar la igualdad numérica o sobrevivir hasta el final del día 6.';
+ if(role==='Paciente Cero')return 'Eres el origen del brote. Cada noche puedes intentar infectar a un jugador que no esté bloqueado.';
+ if(role==='Médico')return 'Cada noche puedes escanear a un jugador y descubrir en secreto si está infectado, salvo que seguridad lo bloquee.';
+ if(role==='Jefe de seguridad')return 'Cada noche puedes bloquear a un jugador. No podrá infectar, ser infectado ni ser escaneado esa noche.';
+ return 'Eres parte de la tripulación. Observa las contradicciones, debate y vota para expulsar a todos los infectados.';
+}
+function renderAll(){renderPlayers();renderFeed();updateStats();renderBio();renderActions()}
+function updateStats(){$('roundTop').textContent=Math.min(round,6)+' / 6';$('statusTop').textContent=gameOver?'FINALIZADO':phase==='night'?'NOCHE':phase==='day'?'DÍA':'EN ESPERA';$('aliveTop').textContent=alive().length;$('phasePill').textContent=phase==='night'?'NOCHE '+(round+1):'DÍA '+round;$('eventCount').textContent=events.length+' EVENTOS'}
+function renderPlayers(){
+ const grid=$('playersGrid');grid.innerHTML='';
+ players.forEach(p=>{
+  const b=document.createElement('button');b.className='player'+(!p.alive?' dead':'')+(p.infected&&p.isHuman?' infected':'')+(selected===p.id?' selected':'');
+  b.disabled=!p.alive||gameOver;
+  const icon=p.role==='Paciente Cero'?'☣':p.role==='Médico'?'✚':p.role==='Jefe de seguridad'?'⬟':'◈';
+  // Only reveal the user's own actual role, and identities publicly revealed by expulsion.
+  let roleline=!p.alive?(p.infected?'Expulsado · infectado':'Expulsado · limpio'):(p.isHuman?(p.role+(p.infected?' · INFECTADO':'')):(p.knownInfected?'Infectado confirmado':p.knownClean?'Limpio confirmado':'Estado desconocido'));
+  b.innerHTML=`<span class="statusdot ${p.infected&&p.knownInfected?'red':''}"></span><div class="avatar">${icon}</div><div class="name">${p.name}${p.isHuman?' <span class="you">TÚ</span>':''}</div><div class="roleline">${roleline}</div>`;
+  b.onclick=()=>{selected=p.id;renderPlayers();renderActions()};grid.appendChild(b);
+ });
+}
+function renderFeed(){$('feed').innerHTML=events.map(e=>`<div class="event ${e.type}">${e.msg}</div>`).join('');$('eventCount').textContent=events.length+' EVENTOS'}
+function renderBio(){
+ const p=me();let txt=`<div class="result"><h4>Tu expediente</h4><p>Rol: <strong>${p.role}</strong><br>Bando actual: <strong style="color:${p.infected?'var(--red)':'var(--green)'}">${p.infected?'VIRUS':'TRIPULACIÓN'}</strong><br>Estado: ${p.alive?'Activo':'Expulsado'}</p></div>`;
+ txt+=`<p class="small muted">Infectados conocidos por ti: ${players.filter(x=>x.knownInfected&&x.alive).map(x=>x.name).join(', ')||'ninguno'}.</p>`;
+ if(lastScan)txt+=`<div class="result"><h4>Último resultado de escáner</h4><p>${lastScan}</p></div>`;
+ $('bioReport').innerHTML=txt;
+}
+function renderActions(){
+ const box=$('actionBox'),title=$('actionTitle'),desc=$('actionDesc'),buttons=$('actionButtons');
+ buttons.innerHTML='';$('dayControls').classList.toggle('hidden',phase!=='day');
+ if(gameOver){box.classList.add('hidden');return}
+ box.classList.remove('hidden');
+ if(phase==='night'){
+  title.textContent='Acción nocturna';let target=selected==null?null:players[selected];
+  if(me().role==='Paciente Cero'&&!me().infected){desc.textContent='Ya no eres el origen activo del virus; tu habilidad especial se conserva, pero solo infectados pueden intentar contagiar.'}
+  else if(me().role==='Paciente Cero'||me().infected){desc.textContent='Selecciona a un jugador vivo para intentar infectarlo. Los bloqueos pueden impedir la acción.';addButton('INFECTAR OBJETIVO','danger',()=>humanNight('infect'),!target||!target.alive||target.id===0)}
+  else if(me().role==='Médico'){desc.textContent='Selecciona a un jugador vivo para escanearlo. El resultado será privado.';addButton('ESCANEAR OBJETIVO','good',()=>humanNight('scan'),!target||!target.alive||target.id===0)}
+  else if(me().role==='Jefe de seguridad'){desc.textContent='Selecciona a un jugador vivo para bloquearlo esta noche.';addButton('BLOQUEAR OBJETIVO','primary',()=>humanNight('block'),!target||!target.alive||target.id===0)}
+  else {desc.textContent='Eres tripulante sin habilidad nocturna. Confirma el fin de la noche para avanzar.';addButton('ESPERAR AL AMANECER','primary',()=>resolveNight())}
+  if(nightActions.humanDone)addButton('CONTINUAR AL AMANECER','primary',()=>resolveNight());
+ } else {
+  title.textContent='Debate y sospechas';desc.textContent='Lee el registro, selecciona un sospechoso y emite tu voto. Los demás jugadores votarán también.';
+  addButton('ABRIR DEBATE', 'ghost',()=>debate(),false);
+ }
+}
+function addButton(label,cls,fn,disabled=false){const b=document.createElement('button');b.textContent=label;b.className=cls;b.disabled=!!disabled;b.onclick=fn;$('actionButtons').appendChild(b)}
+function beginNight(){
+ if(gameOver)return;
+ phase='night';nightActions={humanDone:false,block:null,infect:null,scan:null};humanTarget=null;selected=null;
+ $('phaseIcon').textContent='☾';$('phaseTitle').textContent='Fase nocturna';$('phaseDesc').textContent=`Noche ${round+1}: todas las acciones se resuelven en secreto.`;
+ $('nightInfo').innerHTML='<h4>Actividad detectada</h4><p>El viento golpea los ventanales. La red de seguridad registra movimientos, pero no identifica a los responsables.</p>';
+ $('dayControls').classList.add('hidden');log(`<strong>NOCHE ${round+1}.</strong> La estación entra en modo silencioso.`,'');
+ renderAll();
+ // Human without night role can proceed after computer actions.
+}
+function humanNight(kind){
+ const target=players[selected];if(!target||!target.alive)return;
+ if(kind==='infect')nightActions.infect=target.id;
+ if(kind==='scan')nightActions.scan=target.id;
+ if(kind==='block')nightActions.block=target.id;
+ nightActions.humanDone=true;humanTarget=target.id;
+ toast(`${kind==='infect'?'Objetivo de infección':kind==='scan'?'Objetivo de escaneo':'Objetivo de bloqueo'} registrado en secreto.`);
+ log('Tu acción nocturna ha sido registrada.','');
+ renderActions();
+}
+function resolveNight(){
+ if(gameOver||phase!=='night')return;
+ // AI choices are chosen secretly. Security action resolves first.
+ let sec=players.find(p=>p.alive&&p.role==='Jefe de seguridad'&&!p.isHuman);
+ let doc=players.find(p=>p.alive&&p.role==='Médico'&&!p.isHuman);
+ let p0=players.find(p=>p.alive&&p.role==='Paciente Cero'&&!p.isHuman);
+ let block=nightActions.block!=null?nightActions.block:(sec?chooseTarget(sec,'block'):null);
+ let scan=nightActions.scan!=null?nightActions.scan:(doc?chooseTarget(doc,'scan'):null);
+ let inf=nightActions.infect!=null?nightActions.infect:(p0?chooseTarget(p0,'infect'):null);
+ // If human has special role, their selected action overrides AI action of same kind.
+ const blocked=block;
+ if(block!=null)log('El registro de la red confirma: CERRADURA ACTIVADA.','yellowline');
+ let scanResult=null;
+ if(scan!=null&&scan!==blocked){
+  const t=players[scan];scanResult={id:scan,infected:t.infected};
+  if(doc&&!doc.isHuman){doc.notes.push({id:scan,infected:t.infected});t.suspicion+=t.infected?3:-1}
+  if(scan===0){lastScan=`${me().name}: ${me().infected?'INFECTADO':'LIMPIO'}`}
+  if(scan===0&&me().role==='Médico')toast(`Escáner: ${me().infected?'INFECTADO':'LIMPIO'}`);
+  else if(scanResult&&me().role==='Médico'&&scan===nightActions.scan)toast(`Escáner de ${t.name}: ${t.infected?'INFECTADO':'LIMPIO'}`);
+ }
+ let didInfect=false;
+ if(inf!=null&&inf!==blocked&&players[inf]&&players[inf].alive&&!players[inf].infected){
+  players[inf].infected=true;didInfect=true;players[inf].suspicion+=1;
+  log('La red detecta una intrusión en un sector, sin identificar al jugador.','redline');
+  // The human gets private notification if they are infected.
+  if(inf===0){showModal('ALERTA BIOMÉTRICA',`<p>Tu pulsera acaba de registrar una anomalía. <strong>Has sido infectado.</strong></p><div class="rolecard infectedrole"><strong>EL VIRUS TE HA RECLUTADO</strong><p>Tu bando cambia en secreto. Tu rol y habilidad especial se conservan.</p></div>`)}
+ }else{
+  log(block!=null&&inf===blocked?'La red informa: no hubo intrusión; una puerta estaba bloqueada.':'La red informa: no se detectaron intrusiones esta noche.','');
+ }
+ if(scanResult){
+  const who=players[scanResult.id];
+  if(scanResult.id===0&&me().role==='Médico')lastScan=`Tú estás ${scanResult.infected?'INFECTADO':'LIMPIO'}.`;
+  else if(nightActions.scan===scanResult.id&&me().role==='Médico')lastScan=`${who.name}: ${scanResult.infected?'INFECTADO':'LIMPIO'}.`;
+  // AI private deductions update suspicion, not public truth.
+  players.forEach(p=>{if(p.alive&&!p.isHuman&&p.role==='Médico'&&scanResult.id!==p.id){p.suspicion+=scanResult.infected?2:-0.5}});
+ }
+ if(block===0)me().blockedLast=true;else me().blockedLast=false;
+ $('nightInfo').innerHTML=`<h4>Informe de red</h4><p>${didInfect?'Intrusión detectada. No se ha identificado al objetivo.':'Sin intrusión confirmada.'} ${blocked!=null?'El sistema confirma que se activó un cerrojo, sin publicar el nombre.':''}</p>`;
+ if(scanResult&&me().role==='Médico'&&nightActions.scan!=null&&nightActions.scan!==blocked){
+  lastScan=`${players[scanResult.id].name} estaba ${scanResult.infected?'INFECTADO':'LIMPIO'}.`;toast(lastScan);
+ }
+ round++;phase='day';selected=null;humanVote=null;
+ if(checkWin())return;
+ log(`<strong>AMANECER ${round}.</strong> Los supervivientes se reúnen para debatir.`,'');
+ $('phaseIcon').textContent='☀';$('phaseTitle').textContent='Fase diurna';$('phaseDesc').textContent=`Día ${round}: debate, votación y posible expulsión.`;
+ $('nightInfo').innerHTML=`<h4>Reporte de la red</h4><p>${didInfect?'Se detectó una intrusión durante la noche. No hay identificación pública del objetivo.':'No se detectó una intrusión confirmada.'} La información biométrica individual permanece clasificada.</p>`;
+ renderAll();renderVoteList();debate();
+}
+function chooseTarget(actor,kind){
+ let options=alive().filter(p=>p.id!==actor.id);
+ if(kind==='infect')options=options.filter(p=>!p.infected);
+ if(kind==='block')options=options.filter(p=>p.id!==actor.id);
+ if(!options.length)return null;
+ if(kind==='infect'){
+  options.sort((a,b)=>(b.suspicion-a.suspicion)+(Math.random()-.5)*4);
+  return options[0].id;
+ }
+ if(kind==='scan'){
+  options.sort((a,b)=>((b.suspicion||0)+(b.knownInfected?8:0))-((a.suspicion||0)+(a.knownInfected?8:0)));
+  return rand(options.slice(0,Math.max(1,Math.ceil(options.length/2)))).id;
+ }
+ return rand(options).id;
+}
+function debate(){
+ if(phase!=='day'||gameOver)return;
+ const aliveAI=alive().filter(p=>!p.isHuman);
+ const snippets=[
+  'No podemos expulsar a alguien solo por nerviosismo. Necesitamos hechos.',
+  'La intrusión de anoche significa que alguien cambió de bando.',
+  'Propongo comparar las versiones y buscar contradicciones.',
+  'Si nos dividimos, el virus gana tiempo. Votemos con cuidado.',
+  'Alguien está intentando dirigir la sospecha demasiado rápido.'
+ ];
+ aliveAI.slice(0,4).forEach(p=>{
+  let suspect=alive().filter(x=>x.id!==p.id).sort((a,b)=>(b.suspicion+(b.knownInfected?4:0))-(a.suspicion+(a.knownInfected?4:0)))[0];
+  const line=p.knownInfected?`Yo vigilaría a ${suspect?suspect.name:'los silenciosos'}; hay demasiadas dudas.`:rand(snippets);
+  log(`<strong>${p.name}:</strong> “${line}”`);
+ });
+ renderVoteList();
+}
+function renderVoteList(){
+ const list=$('voteList');if(!list)return;list.innerHTML='';
+ alive().filter(p=>p.id!==0).forEach(p=>{
+  const row=document.createElement('div');row.className='voterow';
+  const label=document.createElement('label'),radio=document.createElement('input');radio.type='radio';radio.name='vote';radio.value=p.id;radio.checked=humanVote===p.id;radio.onchange=()=>humanVote=p.id;
+  label.append(radio,document.createTextNode(p.name));
+  const hint=document.createElement('span');hint.className='muted small';hint.textContent=p.knownInfected?'INFECCIÓN CONFIRMADA':p.knownClean?'ESCANEADO LIMPIO':'SIN DATOS';
+  row.append(label,hint);list.append(row);
+ });
+}
+$('voteBtn').onclick=resolveVote;
+function resolveVote(){
+ if(phase!=='day'||gameOver)return;
+ if(humanVote==null){toast('Selecciona a un jugador antes de votar.');return}
+ const tallies={};alive().forEach(p=>tallies[p.id]=0);
+ tallies[humanVote]++;
+ alive().filter(p=>!p.isHuman).forEach(p=>{
+  let candidates=alive().filter(x=>x.id!==p.id);
+  candidates.sort((a,b)=>(b.suspicion+(b.knownInfected?10:0)+(b.infected?((p.infected)?-5:1):0))-(a.suspicion+(a.knownInfected?10:0)+(a.infected?((p.infected)?-5:1):0)));
+  const top=candidates.slice(0,Math.min(3,candidates.length));
+  const choice=rand(top);if(choice)tallies[choice.id]=(tallies[choice.id]||0)+1;
+ });
+ let max=Math.max(...Object.values(tallies));let tied=Object.keys(tallies).filter(id=>tallies[id]===max).map(Number);
+ let expelled=players[rand(tied)];
+ expelled.alive=false;
+ log(`<strong>VOTACIÓN:</strong> ${expelled.name} ha sido expulsado con ${max} voto(s).`,'yellowline');
+ const wasInf=expelled.infected;
+ if(wasInf){expelled.knownInfected=true;log(`<strong>RESULTADO DEL ESCÁNER PÚBLICO:</strong> ${expelled.name} estaba INFECTADO.`, 'redline');lastScan=`${expelled.name}: INFECTADO.`}
+ else{expelled.knownClean=true;log(`<strong>RESULTADO DEL ESCÁNER PÚBLICO:</strong> ${expelled.name} estaba LIMPIO.`, 'greenline');lastScan=`${expelled.name}: LIMPIO.`}
+ $('nightInfo').innerHTML=`<h4>Resultado de expulsión</h4><p>${expelled.name} ha sido aislado. El escáner confirma que estaba <strong style="color:${wasInf?'var(--red)':'var(--green)'}">${wasInf?'INFECTADO':'LIMPIO'}</strong>.</p>`;
+ round=Math.max(round,1);
+ if(checkWin())return;
+ if(round>=6){finish('virus','El rescate ha llegado, pero queda al menos un infectado libre.');return}
+ phase='night';beginNight();renderAll();
+}
+function checkWin(){
+ if(gameOver)return true;
+ const i=infected().length,c=clean().length;
+ if(i===0){finish('crew','Todos los infectados han sido expulsados. La estación queda bajo control de la tripulación.');return true}
+ if(i>=c){finish('virus',`El virus ha alcanzado la igualdad numérica (${i} infectados frente a ${c} limpios). La estación cae.`);return true}
+ return false;
+}
+function finish(winner,reason){
+ gameOver=true;phase='end';$('gameLayout').classList.add('hidden');$('endScreen').classList.remove('hidden');
+ const crew=winner==='crew';
+ $('endScreen').innerHTML=`<div class="win ${crew?'':'virus'}"><div style="font-size:48px">${crew?'✚':'☣'}</div><div class="eyebrow">${crew?'CONTENCIÓN EXITOSA':'PROTOCOLO FALLIDO'}</div><h2>${crew?'GANA LA TRIPULACIÓN':'EL VIRUS GANA'}</h2><p>${reason}</p><p><strong>${infected().length}</strong> infectados · <strong>${clean().length}</strong> limpios · Día ${Math.min(round,6)}</p><button class="primary" onclick="location.reload()">NUEVA PARTIDA</button><button class="ghost" id="showTruth">REVELAR EXPEDIENTES</button><div id="truth" class="hidden" style="text-align:left;margin-top:20px"></div></div>`;
+ $('showTruth').onclick=()=>{const t=$('truth');t.classList.toggle('hidden');t.innerHTML='<h3>EXPEDIENTES FINALES</h3>'+players.map(p=>`<p>◈ <strong>${p.name}</strong> — ${p.role} — ${p.infected?'INFECTADO':'LIMPIO'} — ${p.alive?'ACTIVO':'EXPULSADO'}</p>`).join('')};
+ updateStats();log(`<strong>FIN DE PARTIDA:</strong> ${crew?'victoria de la tripulación':'victoria del virus'}.`,'');
+}
+})();
+</script>
+</body>
+</html>'''
+path='/mnt/data/index.html'
+with open(path,'w',encoding='utf-8') as f:f.write(html)
+print(path, os.path.getsize(path))
