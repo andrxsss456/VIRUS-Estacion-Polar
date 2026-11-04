@@ -14,9 +14,651 @@ header{display:flex;align-items:center;justify-content:space-between;gap:14px;pa
 main{max-width:1440px;margin:auto;padding:22px clamp(12px,2.5vw,32px) 42px}.hero{position:relative;overflow:hidden;border:1px solid #205477;border-radius:16px;min-height:215px;padding:clamp(20px,4vw,44px);background:linear-gradient(90deg,#061321 0%,#061321e8 48%,#06132130 100%),url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1800&q=85') center 48%/cover}
 .hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#06111f80,transparent 45%)}.hero>*{position:relative;z-index:1}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:.22em;font-weight:800}.hero h2{font-size:clamp(28px,5vw,50px);line-height:1.02;margin:12px 0;max-width:690px;text-transform:uppercase}.hero p{color:#c1d8e9;max-width:620px;margin:0 0 18px}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);gap:16px;margin-top:16px}.panel{background:linear-gradient(145deg,#0b1b2d,#07111e);border:1px solid #1c4968;border-radius:13px;overflow:hidden;box-shadow:0 12px 35px #0003}.panelhead{padding:14px 17px;border-bottom:1px solid #193c58;display:flex;align-items:center;justify-content:space-between;gap:10px}.panelhead h3{margin:0;font-size:14px;letter-spacing:.08em}.panelbody{padding:16px}.muted{color:var(--muted)}.small{font-size:12px}.phasebanner{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:10px;border:1px solid #28628a;background:#0b2338;margin-bottom:14px}.phaseicon{font-size:26px}.phasebanner h3{margin:0 0 3px;font-size:17px}.phasebanner p{margin:0;color:#b3cbe0;font-size:12px}.gridplayers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.player{position:relative;text-align:left;padding:11px;background:linear-gradient(145deg,#10253b,#081523);border:1px solid #214660;border-radius:10px;min-width:0}.player .avatar{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#153d5a;color:var(--cyan);font-weight:900;font-size:17px;margin-bottom:9px}.player .name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}.player .roleline{font-size:10px;color:#88a8c2;margin-top:3px}.player.selected{border-color:var(--yellow);box-shadow:0 0 0 1px #ffd34e55,0 0 20px #ffd34e12}.player.dead{opacity:.35;filter:grayscale(1)}.player.infected .avatar{background:#5b1b31;color:#ff7184}.statusdot{position:absolute;right:9px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px currentColor}.statusdot.red{background:var(--red)}.player .you{color:var(--yellow);font-size:9px;margin-left:4px}.actionbox{margin-top:14px;padding:14px;border:1px solid #214a67;background:#071725;border-radius:10px}.actionbox h4{margin:0 0 8px;font-size:13px}.actionbox p{font-size:12px;color:#a8bfd2;margin:0 0 12px}.actions{display:flex;flex-wrap:wrap;gap:8px}.feed{display:flex;flex-direction:column;gap:9px;max-height:330px;overflow:auto}.event{border-left:2px solid #2879a5;padding:8px 10px;background:#081827;border-radius:0 7px 7px 0;font-size:12px;color:#c5d9e8}.event strong{color:var(--cyan)}.event.redline{border-color:var(--red)}.event.greenline{border-color:var(--green)}.event.yellowline{border-color:var(--yellow)}.voterow{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:9px 0;border-bottom:1px solid #17354d;font-size:13px}.voterow:last-child{border:0}.voterow label{display:flex;align-items:center;gap:8px;cursor:pointer}.voterow input{accent-color:var(--cyan)}.result{padding:15px;border-radius:10px;border:1px solid #276486;background:#091d2e;margin-bottom:12px}.result h4{margin:0 0 7px}.result p{margin:0;color:#bed2e2;font-size:13px;line-height:1.5}.win{padding:25px;text-align:center;border:1px solid var(--green);background:radial-gradient(ellipse at top,#104a42,#071621 70%);border-radius:14px}.win.virus{border-color:var(--red);background:radial-gradient(ellipse at top,#4a1426,#07111e 70%)}.win h2{font-size:28px;margin:8px}.win p{color:#bed3e2}.footer{text-align:center;color:#67869f;font-size:10px;letter-spacing:.12em;margin-top:24px}.hidden{display:none!important}.modalback{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:16px;z-index:20}.modal{width:min(540px,100%);background:#081827;border:1px solid #27739b;border-radius:14px;padding:24px;box-shadow:0 25px 100px #0009}.modal h2{margin-top:0}.modal p{color:#bed3e2;line-height:1.55}.rolecard{padding:13px;background:#0b2236;border:1px solid #2c6587;border-radius:10px;margin:12px 0}.rolecard strong{color:var(--cyan)}.rolecard.infectedrole strong{color:var(--red)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#102b40;border:1px solid var(--cyan);padding:12px 18px;border-radius:9px;z-index:30;box-shadow:0 10px 40px #0008;font-size:13px;max-width:90vw}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.gridplayers{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{background-position:60% center}.topstats .pill:nth-child(2){display:none}}@media(max-width:480px){header{align-items:flex-start;flex-direction:column}.topstats{justify-content:flex-start}.gridplayers{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:250px}.panelbody{padding:12px}}
+  
+/* ==========================================
+   VIRUS: ESTACIÓN POLAR
+   VISUAL OVERHAUL 2.0
+========================================== */
+
+:root {
+  --cyan: #65edff;
+  --blue: #168bd0;
+  --red: #ff294f;
+  --green: #43ffc0;
+  --yellow: #ffdb70;
+  --muted: #91adc3;
+  --white: #eafaff;
+}
+
+/* FONDO CINEMATOGRÁFICO */
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, #123b59 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, #10283d 0%, transparent 50%),
+    linear-gradient(145deg, #020711, #061525 55%, #02060d);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* AURORA POLAR */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -40%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .17;
+  background:
+    radial-gradient(ellipse at 30% 40%,
+      #16c9db 0%, transparent 35%),
+    radial-gradient(ellipse at 70% 50%,
+      #1768a0 0%, transparent 40%);
+  filter: blur(75px);
+  animation: aurora 18s ease-in-out infinite alternate;
+}
+
+@keyframes aurora {
+  0% {
+    transform: translate(-5%, -3%) rotate(0deg);
+  }
+  50% {
+    transform: translate(5%, 4%) rotate(8deg);
+  }
+  100% {
+    transform: translate(-3%, 7%) rotate(-8deg);
+  }
+}
+
+/* ESCÁNER DE PANTALLA */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: .12;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    #8deeff 4px
+  );
+}
+
+/* CABECERA */
+
+header {
+  background: rgba(2, 9, 18, .88);
+  border-bottom: 1px solid #43dfff55;
+  box-shadow: 0 8px 35px #0008;
+}
+
+.brand .logo {
+  font-size: 37px;
+  animation: logoPulse 3s infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px #ff294f;
+  }
+  50% {
+    text-shadow: 0 0 28px #ff294f, 0 0 50px #ff294f66;
+  }
+}
+
+.brand h1 {
+  letter-spacing: .22em;
+  text-shadow: 0 0 18px #4ddfff55;
+}
+
+.pill {
+  background: #071a2b;
+  border-color: #38d8ff55;
+  box-shadow: inset 0 0 12px #168bd011;
+  transition: .3s;
+}
+
+.pill strong {
+  text-shadow: 0 0 12px var(--cyan);
+}
+
+/* HERO PRINCIPAL */
+
+.hero {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #54dfff66;
+  border-radius: 20px;
+  background:
+    linear-gradient(90deg,
+      #020a15 0%,
+      #061626eF 42%,
+      #06162655 100%),
+    url('https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1800&q=85')
+    center 48% / cover;
+  box-shadow:
+    0 20px 60px #0008,
+    inset 0 0 60px #168bd022;
+  animation: heroEntrance 1.2s ease both;
+}
+
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h2 {
+  font-size: clamp(36px, 5vw, 62px);
+  letter-spacing: -.04em;
+  text-shadow: 0 5px 25px #000;
+  animation: titleReveal 1.4s ease both;
+}
+
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.eyebrow {
+  text-shadow: 0 0 15px var(--cyan);
+}
+
+/* PANELes */
+
+.panel {
+  background: linear-gradient(
+    145deg,
+    rgba(12, 32, 51, .96),
+    rgba(3, 12, 23, .98)
+  );
+  border: 1px solid #2c6686;
+  border-radius: 16px;
+  box-shadow:
+    0 15px 40px #0006,
+    inset 0 1px 0 #ffffff0b;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.panel:hover {
+  border-color: #49dfff88;
+  box-shadow:
+    0 15px 45px #0008,
+    0 0 20px #168bd01c;
+}
+
+.panelhead {
+  background: linear-gradient(90deg, #0c2840, #091a2a);
+  border-bottom: 1px solid #42cfff33;
+  padding: 17px 20px;
+}
+
+.panelhead h3 {
+  letter-spacing: .14em;
+  font-size: 12px;
+}
+
+.panelbody {
+  padding: 20px;
+}
+
+/* FASES */
+
+.phasebanner {
+  background:
+    linear-gradient(110deg, #103754, #091a2b);
+  border: 1px solid #4bdfff66;
+  box-shadow: 0 0 25px #20caff12;
+  animation: phaseEnter .6s ease both;
+}
+
+@keyframes phaseEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.phaseicon {
+  font-size: 32px;
+  filter: drop-shadow(0 0 12px var(--cyan));
+  animation: phaseFloat 3s ease-in-out infinite;
+}
+
+@keyframes phaseFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* PERSONAJES */
+
+.gridplayers {
+  gap: 12px;
+}
+
+.player {
+  min-height: 112px;
+  border: 1px solid #28516d;
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, #102c45, #071522);
+  box-shadow: inset 0 0 20px #168bd00a;
+  transition:
+    transform .25s,
+    border-color .25s,
+    box-shadow .25s,
+    background .25s;
+  animation: playerAppear .5s ease both;
+}
+
+.player:hover:not(:disabled) {
+  transform: translateY(-5px) scale(1.025);
+  border-color: var(--cyan);
+  box-shadow:
+    0 10px 25px #0007,
+    0 0 18px #42d9ff33;
+}
+
+@keyframes playerAppear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.player .avatar {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #4adfff55;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #15577b, #102b44);
+  box-shadow: 0 0 15px #42d9ff20;
+  transition: .3s;
+}
+
+.player:hover .avatar {
+  box-shadow: 0 0 22px #42d9ff55;
+}
+
+.player.selected {
+  border-color: var(--yellow);
+  background: linear-gradient(145deg, #443819, #101c26);
+  box-shadow:
+    0 0 0 2px #ffd34e44,
+    0 0 25px #ffd34e35;
+  transform: translateY(-3px);
+}
+
+.player.infected .avatar {
+  background: linear-gradient(145deg, #9d193d, #360d21);
+  color: white;
+  animation: infectedPulse 1.5s infinite;
+}
+
+@keyframes infectedPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px #ff294f33;
+  }
+  50% {
+    box-shadow: 0 0 25px #ff294f99;
+  }
+}
+
+.player.dead {
+  opacity: .28;
+  filter: grayscale(1);
+  transform: scale(.95);
+}
+
+.statusdot {
+  width: 9px;
+  height: 9px;
+  box-shadow: 0 0 12px currentColor;
+  animation: statusBlink 2s infinite;
+}
+
+@keyframes statusBlink {
+  50% { opacity: .35; }
+}
+
+/* BOTONES */
+
+button {
+  border-radius: 9px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform .2s,
+    border-color .2s,
+    box-shadow .2s,
+    filter .2s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px #168bd044;
+}
+
+button:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+button.primary {
+  background: linear-gradient(120deg, #0877a9, #07517d);
+  box-shadow: 0 0 15px #168bd033;
+}
+
+button.danger {
+  box-shadow: 0 0 15px #ff294f22;
+}
+
+button.good {
+  box-shadow: 0 0 15px #35e0a122;
+}
+
+/* ACCIONES */
+
+.actionbox {
+  border: 1px solid #2a6688;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #0c263b, #061421);
+  box-shadow: inset 0 0 25px #168bd00c;
+}
+
+.actionbox h4 {
+  color: var(--cyan);
+  letter-spacing: .06em;
+}
+
+/* REGISTRO DE EVENTOS */
+
+.feed {
+  scrollbar-width: thin;
+  scrollbar-color: #2879a5 #071321;
+}
+
+.event {
+  border-left-width: 3px;
+  background: linear-gradient(90deg, #0b263a, #071522);
+  border-radius: 0 9px 9px 0;
+  animation: eventAppear .35s ease both;
+  line-height: 1.55;
+}
+
+@keyframes eventAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.event.redline {
+  background: linear-gradient(90deg, #421427, #10121f);
+}
+
+.event.greenline {
+  background: linear-gradient(90deg, #10392f, #091a20);
+}
+
+.event.yellowline {
+  background: linear-gradient(90deg, #45371a, #111a21);
+}
+
+/* INFORMES */
+
+.result {
+  background: linear-gradient(135deg, #102c42, #071725);
+  border: 1px solid #3a789a;
+  border-radius: 12px;
+  box-shadow: inset 0 0 20px #168bd011;
+}
+
+.result h4 {
+  color: var(--cyan);
+}
+
+/* VOTACIONES */
+
+.voterow {
+  transition: .2s;
+}
+
+.voterow:hover {
+  background: #15354b;
+  padding-left: 8px;
+}
+
+.voterow input {
+  width: 17px;
+  height: 17px;
+}
+
+/* MODALES */
+
+.modalback {
+  backdrop-filter: blur(12px);
+  animation: fadeIn .25s ease;
+}
+
+.modal {
+  background:
+    linear-gradient(145deg, #102d45, #050f1c);
+  border: 1px solid #4bdfff88;
+  border-radius: 18px;
+  box-shadow:
+    0 25px 100px #000d,
+    0 0 35px #168bd022;
+  animation: modalIn .4s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(.92) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.rolecard {
+  background: linear-gradient(135deg, #103c56, #081a2b);
+  border-radius: 12px;
+  box-shadow: inset 0 0 25px #168bd015;
+}
+
+.rolecard.infectedrole {
+  background: linear-gradient(135deg, #54142a, #1c0b18);
+  border-color: #ff405e;
+}
+
+/* FINAL DE PARTIDA */
+
+.win {
+  border-radius: 20px;
+  padding: 40px 20px;
+  animation: finalReveal .9s ease both;
+  box-shadow: 0 0 50px #35e0a122;
+}
+
+.win.virus {
+  box-shadow: 0 0 50px #ff294f22;
+}
+
+.win h2 {
+  letter-spacing: .08em;
+  animation: titleGlow 3s infinite;
+}
+
+@keyframes finalReveal {
+  from {
+    opacity: 0;
+    transform: scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes titleGlow {
+  50% {
+    text-shadow: 0 0 25px currentColor;
+  }
+}
+
+/* TEST MODE */
+
+.testmode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 15px 0;
+  border: 1px solid #3d7890;
+  background: #061827bb;
+  border-radius: 10px;
+  max-width: 650px;
+  font-size: 12px;
+}
+
+.testmode select {
+  color: var(--white);
+  background: #102b40;
+  border: 1px solid #3b7898;
+  border-radius: 7px;
+  padding: 8px;
+}
+
+.testmode small {
+  color: var(--muted);
+}
+
+.testmode input {
+  accent-color: var(--cyan);
+}
+
+/* NOTIFICACIONES */
+
+.toast {
+  background: linear-gradient(120deg, #10334c, #071522);
+  border: 1px solid var(--cyan);
+  box-shadow: 0 0 25px #42d9ff33;
+  animation: toastIn .3s ease;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 15px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px) {
+  .hero {
+    min-height: 300px;
+  }
+
+  .panelbody {
+    padding: 15px;
+  }
+}
+
+@media(max-width:480px) {
+  .hero {
+    min-height: 280px;
+  }
+
+  .hero h2 {
+    font-size: 36px;
+  }
+
+  .player {
+    min-height: 105px;
+  }
+}
+
+/* ACCESIBILIDAD */
+
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+.snowfield {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .32;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 90px 120px, #dffaff 99%, transparent),
+    radial-gradient(2px 2px at 160px 80px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 230px 170px, #dffaff 99%, transparent),
+    radial-gradient(2px 2px at 300px 40px, #fff 99%, transparent);
+  background-size: 350px 220px;
+  animation: snowfall 18s linear infinite;
+}
+
+@keyframes snowfall {
+  from {
+    background-position: 0 -220px;
+  }
+  to {
+    background-position: 80px 440px;
+  }
+}
+
+main, header {
+  position: relative;
+  z-index: 2;
+}
+
 </style>
 </head>
 <body>
+  <div class="snowfield" aria-hidden="true"></div>
 <header>
   <div class="brand"><div class="logo">☣</div><div><h1>VIRUS</h1><small>ESTACIÓN POLAR · PROTOCOLO DE CONTENCIÓN</small></div></div>
   <div class="topstats"><span class="pill">RONDA <strong id="roundTop">0 / 6</strong></span><span class="pill">ESTADO <strong id="statusTop">EN ESPERA</strong></span><span class="pill">SUPERVIVIENTES <strong id="aliveTop">11</strong></span></div>
