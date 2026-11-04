@@ -1279,6 +1279,77 @@ button:focus-visible {
   }
 }
 
+/* =========================================
+   AMBIENTACIÓN DINÁMICA
+========================================= */
+
+body.phase-night {
+  background:
+    radial-gradient(ellipse at 50% 0%, #092b50, transparent 55%),
+    linear-gradient(145deg, #01040c, #04101f 60%, #020611);
+}
+
+body.phase-day {
+  background:
+    radial-gradient(ellipse at 50% 0%, #15516c, transparent 55%),
+    linear-gradient(145deg, #061624, #0b2639 60%, #030b15);
+}
+
+body.phase-night .phasebanner {
+  border-color: #347bb8;
+  box-shadow: 0 0 30px #168bd044;
+}
+
+body.phase-day .phasebanner {
+  border-color: #6deaff;
+  box-shadow: 0 0 30px #36dcff33;
+}
+
+body.phase-night .phaseicon {
+  color: #8eacff;
+  filter: drop-shadow(0 0 15px #648cff);
+}
+
+body.phase-day .phaseicon {
+  color: #fff1a3;
+  filter: drop-shadow(0 0 15px #ffe28a);
+}
+
+/* ALERTA BIOLÓGICA */
+
+body.alert-mode .panel {
+  border-color: #a52d48;
+  box-shadow: 0 0 22px #ff315422;
+}
+
+body.alert-mode .phasebanner {
+  border-color: #ff3154;
+  background: linear-gradient(100deg, #521329, #170d19);
+  animation: emergencyPulse 1s infinite alternate;
+}
+
+body.alert-mode .phaseicon {
+  color: #ff3154;
+  filter: drop-shadow(0 0 15px #ff3154);
+}
+
+@keyframes emergencyPulse {
+  from {
+    box-shadow: 0 0 5px #ff315433;
+  }
+  to {
+    box-shadow: 0 0 28px #ff315488;
+  }
+}
+
+/* TRANSICIONES */
+
+body,
+.panel,
+.phasebanner {
+  transition: background 1.2s ease, border-color .5s ease, box-shadow .5s ease;
+}
+
 </style>
 </head>
 <body>
@@ -1462,7 +1533,8 @@ function renderActions(){
 function addButton(label,cls,fn,disabled=false){const b=document.createElement('button');b.textContent=label;b.className=cls;b.disabled=!!disabled;b.onclick=fn;$('actionButtons').appendChild(b)}
 function beginNight(){
  if(gameOver)return;
- phase='night';nightActions={humanDone:false,block:null,infect:null,scan:null};humanTarget=null;selected=null;
+ phase='night';document.body.classList.remove('phase-day', 'alert-mode');
+document.body.classList.add('phase-night');nightActions={humanDone:false,block:null,infect:null,scan:null};humanTarget=null;selected=null;
  $('phaseIcon').textContent='☾';$('phaseTitle').textContent='Fase nocturna';$('phaseDesc').textContent=`Noche ${round+1}: todas las acciones se resuelven en secreto.`;
  $('nightInfo').innerHTML='<h4>Actividad detectada</h4><p>El viento golpea los ventanales. La red de seguridad registra movimientos, pero no identifica a los responsables.</p>';
  $('dayControls').classList.add('hidden');log(`<strong>NOCHE ${round+1}.</strong> La estación entra en modo silencioso.`,'');
@@ -1521,6 +1593,16 @@ function resolveNight(){
   lastScan=`${players[scanResult.id].name} estaba ${scanResult.infected?'INFECTADO':'LIMPIO'}.`;toast(lastScan);
  }
  round++;phase='day';selected=null;humanVote=null;
+  document.body.classList.remove('phase-night');
+document.body.classList.add('phase-day');
+
+if (didInfect) {
+  document.body.classList.add('alert-mode');
+
+  setTimeout(() => {
+    document.body.classList.remove('alert-mode');
+  }, 3500);
+}
  if(checkWin())return;
  log(`<strong>AMANECER ${round}.</strong> Los supervivientes se reúnen para debatir.`,'');
  $('phaseIcon').textContent='☀';$('phaseTitle').textContent='Fase diurna';$('phaseDesc').textContent=`Día ${round}: debate, votación y posible expulsión.`;
@@ -1676,7 +1758,8 @@ function checkWin(){
  return false;
 }
 function finish(winner,reason){
- gameOver=true;phase='end';$('gameLayout').classList.add('hidden');$('endScreen').classList.remove('hidden');
+ gameOver=true;phase='end';document.body.classList.remove('phase-night', 'phase-day', 'alert-mode');
+document.body.classList.add('phase-end');$('gameLayout').classList.add('hidden');$('endScreen').classList.remove('hidden');
  const crew=winner==='crew';
  $('endScreen').innerHTML=`<div class="win ${crew?'':'virus'}"><div style="font-size:48px">${crew?'✚':'☣'}</div><div class="eyebrow">${crew?'CONTENCIÓN EXITOSA':'PROTOCOLO FALLIDO'}</div><h2>${crew?'GANA LA TRIPULACIÓN':'EL VIRUS GANA'}</h2><p>${reason}</p><p><strong>${infected().length}</strong> infectados · <strong>${clean().length}</strong> limpios · Día ${Math.min(round,6)}</p><button class="primary" onclick="location.reload()">NUEVA PARTIDA</button><button class="ghost" id="showTruth">REVELAR EXPEDIENTES</button><div id="truth" class="hidden" style="text-align:left;margin-top:20px"></div></div>`;
  $('showTruth').onclick=()=>{const t=$('truth');t.classList.toggle('hidden');t.innerHTML='<h3>EXPEDIENTES FINALES</h3>'+players.map(p=>`<p>◈ <strong>${p.name}</strong> — ${p.role} — ${p.infected?'INFECTADO':'LIMPIO'} — ${p.alive?'ACTIVO':'EXPULSADO'}</p>`).join('')};
