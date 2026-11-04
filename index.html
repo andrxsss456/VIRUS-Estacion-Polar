@@ -655,6 +655,630 @@ main, header {
   z-index: 2;
 }
 
+/* =====================================================
+   VIRUS: ESTACIÓN POLAR
+   CINEMATIC INTERFACE 3.0
+===================================================== */
+
+:root {
+  --ice: #a8f4ff;
+  --neon: #36dcff;
+  --danger: #ff3154;
+  --glass: rgba(5, 20, 35, .82);
+  --border-glow: rgba(61, 221, 255, .42);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -15%, #17618a 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 60%, #142c4a 0%, transparent 35%),
+    linear-gradient(145deg, #020711, #071a2c 55%, #020711);
+  background-attachment: fixed;
+}
+
+/* Luces ambientales */
+
+body::before {
+  opacity: .24;
+  filter: blur(95px);
+  background:
+    radial-gradient(ellipse at 18% 30%, #00c9d9 0%, transparent 30%),
+    radial-gradient(ellipse at 75% 20%, #176ba5 0%, transparent 35%),
+    radial-gradient(ellipse at 80% 85%, #a20e37 0%, transparent 25%);
+  animation: polarLights 20s ease-in-out infinite alternate;
+}
+
+@keyframes polarLights {
+  0% { transform: translate(-3%, -2%) scale(1); }
+  50% { transform: translate(4%, 3%) scale(1.08); }
+  100% { transform: translate(-2%, 5%) scale(1.02); }
+}
+
+/* Nieve en varias capas */
+
+.snowfield {
+  opacity: .42;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 90px 120px, #dffaff 99%, transparent),
+    radial-gradient(3px 3px at 160px 80px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 230px 170px, #dffaff 99%, transparent),
+    radial-gradient(2px 2px at 300px 40px, #fff 99%, transparent);
+  background-size: 350px 220px;
+  animation: snowfall 15s linear infinite;
+}
+
+.snowfield::after {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  background-image:
+    radial-gradient(3px 3px at 40px 60px, #fff 99%, transparent),
+    radial-gradient(2px 2px at 180px 130px, #b8f5ff 99%, transparent),
+    radial-gradient(2px 2px at 260px 30px, #fff 99%, transparent);
+  background-size: 290px 190px;
+  animation: snowfall 24s linear infinite reverse;
+  opacity: .65;
+}
+
+/* CABECERA */
+
+header {
+  background: rgba(2, 8, 17, .91);
+  border-bottom: 1px solid var(--border-glow);
+  box-shadow: 0 8px 40px #0009, 0 1px 15px #1bcfff15;
+}
+
+.brand .logo {
+  font-size: 42px;
+  filter: drop-shadow(0 0 12px #ff3154);
+}
+
+.brand h1 {
+  font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: .25em;
+  text-shadow: 0 0 20px #36dcff55;
+}
+
+.brand small {
+  color: #9bc9df;
+  letter-spacing: .2em;
+}
+
+.topstats .pill {
+  border-radius: 5px;
+  padding: 9px 13px;
+  background: linear-gradient(135deg, #102b42, #061421);
+  border-color: #38d8ff66;
+  box-shadow: inset 0 0 12px #168bd022;
+}
+
+/* ESCENARIO PRINCIPAL */
+
+.hero {
+  min-height: 470px;
+  padding: clamp(24px, 5vw, 58px);
+  border-radius: 5px;
+  border: 1px solid #40dfff88;
+  background:
+    linear-gradient(90deg,
+      rgba(2, 8, 18, .98) 0%,
+      rgba(3, 16, 30, .87) 38%,
+      rgba(3, 16, 30, .18) 100%),
+    linear-gradient(0deg, #020711 0%, transparent 50%),
+    url("https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=2000&q=90")
+    center 48% / cover;
+  box-shadow:
+    0 25px 70px #000a,
+    inset 0 0 90px #168bd033;
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, transparent 40%, #39dfff12 55%, transparent 70%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 80px,
+      #5eeaff08 81px,
+      transparent 82px
+    );
+  animation: heroScan 12s linear infinite;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(0deg, #020711bb, transparent 30%),
+    linear-gradient(90deg, transparent 75%, #ff315410);
+}
+
+@keyframes heroScan {
+  from { transform: translateX(-30%); }
+  to { transform: translateX(30%); }
+}
+
+.hero .eyebrow {
+  display: inline-block;
+  padding: 8px 12px;
+  background: #062238bb;
+  border-left: 3px solid var(--neon);
+  font-size: 11px;
+  letter-spacing: .22em;
+  box-shadow: 0 0 20px #36dcff18;
+}
+
+.hero h2 {
+  max-width: 720px;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: .99;
+  letter-spacing: -.045em;
+  text-shadow: 0 4px 25px #000, 0 0 25px #36dcff20;
+}
+
+.hero h2::first-line {
+  color: #f0fbff;
+}
+
+.hero p {
+  max-width: 550px;
+  line-height: 1.7;
+  color: #c6e1f1;
+}
+
+/* PANEL DE INFORMACIÓN DE LA ESTACIÓN */
+
+.station-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 13px;
+  border: 1px solid #2c7695;
+  background: #2c7695;
+  box-shadow: 0 10px 30px #0005;
+}
+
+.station-cell {
+  min-width: 0;
+  padding: 15px;
+  background: linear-gradient(145deg, #0c263b, #061321);
+}
+
+.station-cell small {
+  display: block;
+  color: #8fb7cf;
+  font-size: 9px;
+  letter-spacing: .16em;
+  margin-bottom: 7px;
+}
+
+.station-cell strong {
+  display: block;
+  color: var(--ice);
+  font-size: 14px;
+  letter-spacing: .06em;
+}
+
+.station-cell.alert strong {
+  color: var(--danger);
+  text-shadow: 0 0 12px #ff315455;
+}
+
+/* MODO DE PRUEBA */
+
+.testmode {
+  border: 1px solid #36dcff55;
+  background: rgba(3, 17, 30, .88);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 25px #36dcff0d;
+}
+
+.testmode select {
+  outline: none;
+  border-color: #36dcff77;
+}
+
+.testmode select:focus {
+  box-shadow: 0 0 0 2px #36dcff33;
+}
+
+/* BOTONES DE PROTOCOLO */
+
+button {
+  border-radius: 4px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  font-size: 11px;
+  min-height: 39px;
+}
+
+.hero button {
+  min-height: 49px;
+  padding: 13px 23px;
+}
+
+.hero .primary {
+  background: linear-gradient(110deg, #087eac, #06466f);
+  border: 1px solid #67eaff;
+  box-shadow: 0 0 22px #16caff33;
+}
+
+.hero .primary:hover {
+  box-shadow: 0 0 35px #16caff77;
+}
+
+.hero .ghost {
+  background: rgba(3, 18, 32, .86);
+  border-color: #3ca7d0;
+}
+
+button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* CONTENEDORES HOLOGRÁFICOS */
+
+.panel {
+  border-radius: 5px;
+  background:
+    linear-gradient(145deg, rgba(10, 34, 53, .97), rgba(3, 12, 23, .98));
+  border: 1px solid #2b7192;
+  box-shadow:
+    0 18px 45px #0007,
+    inset 0 0 30px #36dcff08;
+}
+
+.panelhead {
+  position: relative;
+  background: linear-gradient(90deg, #10344d, #071a2b);
+  border-bottom: 1px solid #36dcff55;
+}
+
+.panelhead::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 80px;
+  height: 2px;
+  background: var(--neon);
+  box-shadow: 0 0 12px var(--neon);
+}
+
+.panelhead h3 {
+  color: #d9f7ff;
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+
+.phasebanner {
+  border-radius: 4px;
+  background: linear-gradient(100deg, #103e5b, #081b2b);
+  border-left: 3px solid var(--neon);
+  box-shadow: 0 0 25px #36dcff12;
+}
+
+.phasebanner h3 {
+  color: var(--ice);
+  letter-spacing: .06em;
+}
+
+/* TARJETAS DE PERSONAL */
+
+.gridplayers {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.player {
+  min-height: 125px;
+  border-radius: 5px;
+  background:
+    linear-gradient(145deg, #12334c, #071522);
+  border: 1px solid #32708e;
+  clip-path: polygon(0 0, calc(100% - 13px) 0, 100% 13px, 100% 100%, 0 100%);
+}
+
+.player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, #ffffff0c, transparent 45%);
+}
+
+.player .avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid #56dfff99;
+  background: radial-gradient(circle at 35% 25%, #28799d, #071a2c 75%);
+  box-shadow: 0 0 15px #36dcff22;
+}
+
+.player .name {
+  color: #e7faff;
+  letter-spacing: .04em;
+}
+
+.player .roleline {
+  color: #8dbbd2;
+}
+
+.player.selected {
+  border-color: var(--yellow);
+  background: linear-gradient(145deg, #46391c, #111a25);
+  box-shadow: 0 0 22px #ffdb7055;
+}
+
+.player.infected {
+  border-color: #ff3154;
+  box-shadow: inset 0 0 25px #ff315422;
+}
+
+.player.infected .avatar {
+  border-color: #ff3154;
+}
+
+.player.dead {
+  filter: grayscale(1);
+  opacity: .3;
+}
+
+.player .statusdot {
+  border: 1px solid #071522;
+}
+
+/* ACCIONES */
+
+.actionbox {
+  border-radius: 5px;
+  background: linear-gradient(120deg, #0c293e, #061522);
+  border: 1px solid #347b9b;
+  box-shadow: inset 0 0 30px #36dcff0b;
+}
+
+.actionbox h4 {
+  color: var(--ice);
+  letter-spacing: .12em;
+}
+
+.actions {
+  gap: 9px;
+}
+
+/* REGISTRO */
+
+.event {
+  border-radius: 2px;
+  border-left-width: 3px;
+  background: linear-gradient(90deg, #0c2b42, #061421);
+  line-height: 1.6;
+}
+
+.event strong {
+  color: var(--ice);
+}
+
+.event.redline {
+  background: linear-gradient(90deg, #4a1228, #160d19);
+}
+
+.event.greenline {
+  background: linear-gradient(90deg, #104336, #081c1b);
+}
+
+.event.yellowline {
+  background: linear-gradient(90deg, #493919, #171a1b);
+}
+
+/* INFORMES BIOMÉTRICOS */
+
+.result {
+  border-radius: 5px;
+  background: linear-gradient(135deg, #12334b, #061522);
+  border: 1px solid #367b9d;
+}
+
+.result h4 {
+  color: var(--ice);
+  letter-spacing: .06em;
+}
+
+/* VOTACIÓN */
+
+.voterow {
+  padding: 11px 9px;
+  border-bottom: 1px solid #21445a;
+}
+
+.voterow:hover {
+  background: #10334a;
+}
+
+.voterow input {
+  accent-color: var(--neon);
+}
+
+/* MODALES */
+
+.modalback {
+  background: rgba(0, 5, 12, .82);
+  backdrop-filter: blur(15px);
+}
+
+.modal {
+  border-radius: 5px;
+  border: 1px solid #47dfff;
+  background: linear-gradient(145deg, #10324b, #040e1a);
+}
+
+.modal h2 {
+  color: var(--ice);
+  letter-spacing: .1em;
+}
+
+.rolecard {
+  border-radius: 4px;
+  border-left: 3px solid var(--neon);
+}
+
+.rolecard.infectedrole {
+  border-left-color: var(--danger);
+  box-shadow: 0 0 25px #ff315422;
+}
+
+/* VICTORIA Y DERROTA */
+
+.win {
+  border-radius: 5px;
+  border-width: 1px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #12604e, transparent 65%),
+    #061522;
+}
+
+.win.virus {
+  background:
+    radial-gradient(ellipse at 50% 0%, #68182e, transparent 65%),
+    #06101d;
+}
+
+.win h2 {
+  font-size: clamp(27px, 5vw, 46px);
+  letter-spacing: .1em;
+}
+
+/* NOTIFICACIONES */
+
+.toast {
+  border-radius: 4px;
+  border: 1px solid var(--neon);
+  background: linear-gradient(120deg, #123b55, #061522);
+  box-shadow: 0 0 30px #36dcff44;
+}
+
+/* FINAL DE PARTIDA */
+
+#endScreen .win {
+  max-width: 950px;
+  margin: auto;
+}
+
+/* PIE DE PÁGINA */
+
+.footer {
+  padding-top: 22px;
+  border-top: 1px solid #36dcff22;
+  letter-spacing: .2em;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .station-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gridplayers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 390px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 390px;
+    padding: 22px 17px;
+  }
+
+  .hero h2 {
+    font-size: 37px;
+  }
+
+  .station-cell {
+    padding: 11px;
+  }
+
+  .station-cell strong {
+    font-size: 11px;
+  }
+
+  .gridplayers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .player {
+    min-height: 115px;
+  }
+
+  .brand small {
+    font-size: 8px;
+  }
+
+  .topstats {
+    gap: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.hero-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.hero-hud span {
+  padding: 7px 10px;
+  color: #a9edff;
+  background: rgba(3, 24, 40, .83);
+  border: 1px solid #36dcff55;
+  font-size: 9px;
+  letter-spacing: .12em;
+  box-shadow: inset 0 0 12px #36dcff0b;
+}
+
+.hero-hud span:first-child {
+  color: #ff6b82;
+  border-color: #ff315477;
+}
+
+@media(max-width:480px) {
+  .hero-hud {
+    gap: 5px;
+  }
+
+  .hero-hud span {
+    font-size: 8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -669,6 +1293,12 @@ main, header {
   <h2>La confianza<br>también puede infectar.</h2>
   <p>Once personas aisladas. Un patógeno desconocido. Cada decisión puede salvar la estación… o condenarla.</p>
   
+<div class="hero-hud">
+  <span>◈ SISTEMA DE CONTENCIÓN ACTIVO</span>
+  <span>◈ RESCATE: 06 DÍAS</span>
+  <span>◈ 11 SEÑALES BIOMÉTRICAS</span>
+</div>
+
 <div class="testmode">
   <label>
     <input type="checkbox" id="testMode">
@@ -687,6 +1317,26 @@ main, header {
   <button class="primary" id="startBtn">INICIAR PROTOCOLO →</button>
   <button class="ghost" id="rulesBtn">LEER REGLAS</button>
 </section>
+  
+<div class="station-strip">
+  <div class="station-cell">
+    <small>UBICACIÓN</small>
+    <strong>BASE POLAR AURORA-7</strong>
+  </div>
+  <div class="station-cell">
+    <small>TEMPERATURA EXTERIOR</small>
+    <strong>-18 °C</strong>
+  </div>
+  <div class="station-cell">
+    <small>ESTADO DE LA ESTACIÓN</small>
+    <strong>CUARENTENA</strong>
+  </div>
+  <div class="station-cell alert">
+    <small>RIESGO BIOLÓGICO</small>
+    <strong>ALERTA ACTIVA</strong>
+  </div>
+</div>
+
 <div class="layout hidden" id="gameLayout">
   <section class="panel">
     <div class="panelhead"><h3>◈ ESTADO DE LA ESTACIÓN</h3><span class="pill" id="phasePill">NOCHE 1</span></div>
